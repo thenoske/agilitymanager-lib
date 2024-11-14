@@ -14,9 +14,10 @@ type LicenceClaims struct {
 	jwt.StandardClaims
 
 	// Additional fields
-	Owner string `json:"owner"`
-	Code  string `json:"code"`
-	Type  string `json:"type"`
+	Customer string `json:"customer"`
+	Code     string `json:"code"`
+	Type     string `json:"type"`
+	MaxTeams int    `json:"maxTeams"`
 }
 
 func (l LicenceClaims) ToJson() []byte {
