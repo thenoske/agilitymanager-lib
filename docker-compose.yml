@@ -1,0 +1,9 @@
+version: "3.7"
+
+services:
+  builder:
+    build: .
+    command: sh -c "while true; do date;sleep 1;done;"
+    volumes:
+      - .:/code:rw
+
