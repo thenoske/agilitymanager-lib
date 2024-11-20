@@ -9,7 +9,8 @@ type RunRecord struct {
 	Faults                   int     `json:"faults"`
 	Refusals                 int     `json:"refusals"`
 	Time                     int     `json:"time"`
-	Dis                      bool    `json:"dis"`
+	DisStatic                bool    `json:"dis_static"`
+	DisByTime                bool    `json:"dis_by_time"`
 	NotRunning               bool    `json:"not_running"`
 
 	// calculated fields

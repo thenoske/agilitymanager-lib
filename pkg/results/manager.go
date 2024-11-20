@@ -40,13 +40,19 @@ func (m *manager) CalculatePenaltyPoints(record *domain.RunRecord) (float64, flo
 
 	totalPenaltyPoints = runPenaltyPoints + timePenaltyPoints
 
-	// three refusals or max time overtake is disqualification
-	if record.Refusals >= 3 || record.Time > record.MaxTime {
-		record.Dis = true
+	// three refusals
+	if record.Refusals >= 3 {
+		record.DisStatic = true
+	}
+
+	// max time overtake is disqualification
+	if record.Time > record.MaxTime {
+		record.DisByTime = true
+		record.DisStatic = false
 	}
 
 	// disqualification
-	if record.Dis {
+	if record.DisStatic || record.DisByTime {
 		record.Time = 0
 		timePenaltyPoints = 0
 		runPenaltyPoints = float64(record.DefaultDisPenaltyPoints)

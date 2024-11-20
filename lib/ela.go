@@ -78,13 +78,13 @@ func calculatePenaltyPoints(token *C.char, record *C.char, out *byte, outN int64
 
 	// max time overtake
 	if runRecord.Time > runRecord.MaxTime {
-		runRecord.Dis = true
+		runRecord.DisByTime = true
 		runRecord.Time = 0
 		totalPenaltyPoints = float64(runRecord.DefaultDisPenaltyPoints)
 	}
 
 	// disqualification
-	if runRecord.Dis {
+	if runRecord.DisStatic || runRecord.DisByTime {
 		runPenaltyPoints = float64(runRecord.DefaultDisPenaltyPoints)
 		totalPenaltyPoints = float64(runRecord.DefaultDisPenaltyPoints)
 	}
@@ -96,11 +96,12 @@ func calculatePenaltyPoints(token *C.char, record *C.char, out *byte, outN int64
 	}
 
 	buf.WriteString(fmt.Sprintf(
-		`{"run_penalty_points": %f, "time_penalty_points": %f, "total_penalty_points": %f, "dis": %t, "not_running": %t, "time": %d}`,
+		`{"run_penalty_points": %f, "time_penalty_points": %f, "total_penalty_points": %f, "dis_static": %t, "dis_by_time": %t, "not_running": %t, "time": %d}`,
 		runPenaltyPoints,
 		timePenaltyPoints,
 		totalPenaltyPoints,
-		runRecord.Dis,
+		runRecord.DisStatic,
+		runRecord.DisByTime,
 		runRecord.NotRunning,
 		runRecord.Time))
 	buf.WriteByte(0) // Null terminator, important!
