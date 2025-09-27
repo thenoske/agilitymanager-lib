@@ -5,7 +5,8 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
-	agilitymanager_lib "github.com/thenoske/agilitymanager-lib"
+
+	agilitymanagerLib "github.com/thenoske/agilitymanager-lib"
 	"github.com/thenoske/agilitymanager-lib/domain"
 
 	"unsafe"
@@ -18,7 +19,7 @@ func validation(token *C.char, out *byte, outN int64) *byte {
 	buf := bytes.NewBuffer(outBytes)
 
 	var t string = C.GoString(token)
-	claims, err := agilitymanager_lib.VerifyToken(t)
+	claims, err := agilitymanagerLib.VerifyToken(t)
 	if err != nil {
 		buf.WriteString(fmt.Sprintf("%d", 0))
 		buf.WriteByte(0)
@@ -47,7 +48,7 @@ func calculatePenaltyPoints(token *C.char, record *C.char, out *byte, outN int64
 	buf := bytes.NewBuffer(outBytes)
 
 	var t string = C.GoString(token)
-	_, err = agilitymanager_lib.VerifyToken(t)
+	_, err = agilitymanagerLib.VerifyToken(t)
 	if err != nil {
 		buf.WriteString(err.Error())
 		buf.WriteByte(0)
